@@ -1,0 +1,377 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Smart Airport Ride Pooling",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/rides/request": {
+      "post": {
+        "tags": [
+          "rides"
+        ],
+        "summary": "Create Ride Request",
+        "operationId": "create_ride_request_rides_request_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RideRequestCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideRequestResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rides/{request_id}": {
+      "get": {
+        "tags": [
+          "rides"
+        ],
+        "summary": "Get Ride Status",
+        "operationId": "get_ride_status_rides__request_id__get",
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideRequestResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rides/seed": {
+      "post": {
+        "tags": [
+          "rides"
+        ],
+        "summary": "Seed Data",
+        "description": "Helper to seed some vehicles and users",
+        "operationId": "seed_data_rides_seed_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rides/{request_id}/cancel": {
+      "post": {
+        "tags": [
+          "rides"
+        ],
+        "summary": "Cancel Ride Request",
+        "operationId": "cancel_ride_request_rides__request_id__cancel_post",
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Request Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RideRequestResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Read Root",
+        "operationId": "read_root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "RideRequestCreate": {
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "pickup_lat": {
+            "type": "number",
+            "title": "Pickup Lat"
+          },
+          "pickup_lon": {
+            "type": "number",
+            "title": "Pickup Lon"
+          },
+          "dropoff_lat": {
+            "type": "number",
+            "title": "Dropoff Lat"
+          },
+          "dropoff_lon": {
+            "type": "number",
+            "title": "Dropoff Lon"
+          },
+          "seats_needed": {
+            "type": "integer",
+            "title": "Seats Needed",
+            "default": 1
+          },
+          "luggage_count": {
+            "type": "integer",
+            "title": "Luggage Count",
+            "default": 0
+          },
+          "pickup_time_window_start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Pickup Time Window Start"
+          },
+          "pickup_time_window_end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Pickup Time Window End"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "pickup_lat",
+          "pickup_lon",
+          "dropoff_lat",
+          "dropoff_lon",
+          "pickup_time_window_start",
+          "pickup_time_window_end"
+        ],
+        "title": "RideRequestCreate"
+      },
+      "RideRequestResponse": {
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "pickup_lat": {
+            "type": "number",
+            "title": "Pickup Lat"
+          },
+          "pickup_lon": {
+            "type": "number",
+            "title": "Pickup Lon"
+          },
+          "dropoff_lat": {
+            "type": "number",
+            "title": "Dropoff Lat"
+          },
+          "dropoff_lon": {
+            "type": "number",
+            "title": "Dropoff Lon"
+          },
+          "seats_needed": {
+            "type": "integer",
+            "title": "Seats Needed",
+            "default": 1
+          },
+          "luggage_count": {
+            "type": "integer",
+            "title": "Luggage Count",
+            "default": 0
+          },
+          "pickup_time_window_start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Pickup Time Window Start"
+          },
+          "pickup_time_window_end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Pickup Time Window End"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RideStatus"
+          },
+          "request_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Request Time"
+          },
+          "trip_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trip Id"
+          },
+          "estimated_fare": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimated Fare"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "pickup_lat",
+          "pickup_lon",
+          "dropoff_lat",
+          "dropoff_lon",
+          "pickup_time_window_start",
+          "pickup_time_window_end",
+          "id",
+          "status",
+          "request_time"
+        ],
+        "title": "RideRequestResponse"
+      },
+      "RideStatus": {
+        "type": "string",
+        "enum": [
+          "PENDING",
+          "MATCHED",
+          "COMPLETED",
+          "CANCELLED"
+        ],
+        "title": "RideStatus"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
