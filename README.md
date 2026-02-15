@@ -47,7 +47,7 @@ pytest
 
 ## API Documentation
 You can explore the API using the automatic Swagger UI:
-👉 **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)**
+ **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)**
 
 I also generated a static `openapi.json` included in this repo if you want to import it into Postman.
 
@@ -72,4 +72,3 @@ I ran a load test simulating **100 concurrent users** spawning at 20 users/sec.
 *Note: Tested on local development machine with SQLite.*
 
 ---
-**Ready for Submission** 🚀
